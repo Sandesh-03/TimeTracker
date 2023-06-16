@@ -19,15 +19,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  void showNotification(String title,String desc) async {
+  void showNotification() async {
     AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-        title,
-        desc,
+        "title",
+        "desc",
         priority: Priority.max,
         importance: Importance.max
     );
 
-    DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+    DarwinNotificationDetails iosDetails = const DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
       presentSound: true,
@@ -38,15 +38,14 @@ class _HomePageState extends State<HomePage> {
         iOS: iosDetails
     );
 
-    DateTime scheduleDate = DateTime.now().add(Duration(seconds: 5));
+    DateTime scheduleDate = DateTime.now().add(const Duration(seconds: 5));
 
-    await notificationsPlugin.zonedSchedule(
+    await notificationsPlugin.schedule(
         0,
-       title,
-        desc,
-        tz.TZDateTime.from(scheduleDate, tz.local),
+       "title",
+        "desc",
+        scheduleDate,
         notiDetails,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.wallClockTime,
         androidAllowWhileIdle: true,
         payload: "notification-payload"
     );
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
 
 
-  TimeOfDay _timeOfDay = TimeOfDay(hour: 8, minute: 30);
+  TimeOfDay _timeOfDay = const TimeOfDay(hour: 8, minute: 30);
 
 
   // show time picker method
@@ -80,7 +79,7 @@ class _HomePageState extends State<HomePage> {
     void removeTask(index){
       setState(() {
         TasksList.removeAt(index);
-        TasksList.length --;
+
       });
 
     }
@@ -242,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                                   backgroundColor: Colors.deepPurple.shade100,
                                   onPressed: ((context) async{
 
-                                    showNotification(TasksList[index][1], TasksList[index][2],);
+                                    showNotification();
 
                                   }),
                                   icon: Icons.alarm,
